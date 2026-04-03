@@ -35,11 +35,11 @@ if (hamburger && navLinks) {
 
 /* ── TYPED ANIMATION ───────────────────────────── */
 const lines = [
-  'Full Stack Developer 🚀',
-  'Content Creator 🎬',
-  'Open Source Enthusiast 💡',
-  'JavaScript Craftsman ⚡',
-  'Building Cool Stuff 🔧',
+  'Developer | Learner | Builder',
+  'Building Real Projects',
+  'Learning Advanced JavaScript',
+  'Practicing DSA Daily',
+  'Consistency Beats Everything',
 ];
 
 const typedEl = document.getElementById('typed-text');
