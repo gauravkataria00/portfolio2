@@ -1,0 +1,25 @@
+{
+  "name": "portfolio2",
+  "version": "1.0.0",
+  "description": "<!-- ═══════════════════════════════════════════════════════════════ --> <!--                  GAURAV KATARIA • GITHUB PROFILE              --> <!-- ═══════════════════════════════════════════════════════════════ -->",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gauravkataria00/portfolio2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/gauravkataria00/portfolio2/issues"
+  },
+  "homepage": "https://github.com/gauravkataria00/portfolio2#readme",
+  "dependencies": {
+    "aos": "^2.3.4",
+    "particles.js": "^2.0.0"
+  }
+}
