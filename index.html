@@ -22,8 +22,10 @@
 </head>
 <body>
 
+  <a href="#home" class="skip-link">Skip to main content</a>
+
   <!-- ══════════ PARTICLES BACKGROUND ══════════ -->
-  <div id="particles-js"></div>
+  <div id="particles-js" aria-hidden="true"></div>
 
   <!-- ══════════ NAV ══════════ -->
   <nav class="navbar" id="navbar">
@@ -38,7 +40,7 @@
         <li><a href="#stats" class="nav-link">Stats</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -141,48 +143,48 @@
       <div class="skills-category" data-aos="fade-up" data-aos-delay="100">
         <h3 class="skills-cat-title"><span>🎨</span> Frontend</h3>
         <div class="skills-grid">
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" /><span>HTML5</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" /><span>CSS3</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" /><span>JavaScript</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript" /><span>TypeScript</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" /><span>React</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" /><span>Next.js</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" /><span>Tailwind</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="Sass" /><span>Sass</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" loading="lazy" decoding="async" /><span>HTML5</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" loading="lazy" decoding="async" /><span>CSS3</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" loading="lazy" decoding="async" /><span>JavaScript</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript" loading="lazy" decoding="async" /><span>TypeScript</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" loading="lazy" decoding="async" /><span>React</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" loading="lazy" decoding="async" /><span>Next.js</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" loading="lazy" decoding="async" /><span>Tailwind</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="Sass" loading="lazy" decoding="async" /><span>Sass</span></div>
         </div>
       </div>
 
       <div class="skills-category" data-aos="fade-up" data-aos-delay="150">
         <h3 class="skills-cat-title"><span>⚙️</span> Backend &amp; Runtime</h3>
         <div class="skills-grid">
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" /><span>Node.js</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express.js" class="invert" /><span>Express.js</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" /><span>Python</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" /><span>PHP</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" loading="lazy" decoding="async" /><span>Node.js</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express.js" loading="lazy" decoding="async" class="invert" /><span>Express.js</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" loading="lazy" decoding="async" /><span>Python</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" loading="lazy" decoding="async" /><span>PHP</span></div>
         </div>
       </div>
 
       <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
         <h3 class="skills-cat-title"><span>🗄️</span> Databases</h3>
         <div class="skills-grid">
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" /><span>MongoDB</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" /><span>MySQL</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" /><span>PostgreSQL</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" alt="Redis" /><span>Redis</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" loading="lazy" decoding="async" /><span>MongoDB</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" loading="lazy" decoding="async" /><span>MySQL</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" loading="lazy" decoding="async" /><span>PostgreSQL</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" alt="Redis" loading="lazy" decoding="async" /><span>Redis</span></div>
         </div>
       </div>
 
       <div class="skills-category" data-aos="fade-up" data-aos-delay="250">
         <h3 class="skills-cat-title"><span>🔧</span> Tools &amp; Platforms</h3>
         <div class="skills-grid">
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" /><span>Git</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="invert" /><span>GitHub</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" /><span>VS Code</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" /><span>Figma</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" /><span>Docker</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux" /><span>Linux</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" alt="Vercel" class="invert" /><span>Vercel</span></div>
-          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/netlify/netlify-original.svg" alt="Netlify" /><span>Netlify</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" loading="lazy" decoding="async" /><span>Git</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" loading="lazy" decoding="async" class="invert" /><span>GitHub</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" loading="lazy" decoding="async" /><span>VS Code</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" loading="lazy" decoding="async" /><span>Figma</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" loading="lazy" decoding="async" /><span>Docker</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux" loading="lazy" decoding="async" /><span>Linux</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" alt="Vercel" loading="lazy" decoding="async" class="invert" /><span>Vercel</span></div>
+          <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/netlify/netlify-original.svg" alt="Netlify" loading="lazy" decoding="async" /><span>Netlify</span></div>
         </div>
       </div>
     </div>
@@ -255,6 +257,8 @@
             src="https://github-readme-stats.vercel.app/api?username=gauravkataria00&show_icons=true&theme=midnight-purple&hide_border=true&bg_color=1a1040&title_color=a78bfa&icon_color=a78bfa&text_color=ffffff&rank_icon=github&include_all_commits=true&count_private=true"
             alt="Gaurav's GitHub Stats"
             class="stats-img"
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div data-aos="fade-up" data-aos-delay="200">
@@ -262,6 +266,8 @@
             src="https://github-readme-stats.vercel.app/api/top-langs/?username=gauravkataria00&layout=compact&theme=midnight-purple&hide_border=true&bg_color=1a1040&title_color=a78bfa&text_color=ffffff&langs_count=8"
             alt="Top Languages"
             class="stats-img"
+            loading="lazy"
+            decoding="async"
           />
         </div>
       </div>
@@ -270,6 +276,8 @@
           src="https://streak-stats.demolab.com?user=gauravkataria00&theme=midnight-purple&hide_border=true&background=1a1040&ring=a78bfa&fire=ff6b6b&currStreakLabel=a78bfa&sideLabels=a78bfa&dates=ffffff&stroke=a78bfa"
           alt="GitHub Streak"
           class="stats-img"
+          loading="lazy"
+          decoding="async"
         />
       </div>
       <div class="stats-activity" data-aos="fade-up" data-aos-delay="400">
@@ -277,6 +285,8 @@
           src="https://github-readme-activity-graph.vercel.app/graph?username=gauravkataria00&theme=react-dark&bg_color=1a1040&color=a78bfa&line=7c3aed&point=ffffff&hide_border=true"
           alt="Activity Graph"
           class="stats-img full-width"
+          loading="lazy"
+          decoding="async"
         />
       </div>
     </div>

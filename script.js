@@ -1,20 +1,37 @@
+'use strict';
+
 /* ── SCROLL: sticky navbar ─────────────────────── */
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
-});
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+}
 
 /* ── HAMBURGER ─────────────────────────────────── */
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.getElementById('nav-links');
 
-hamburger.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-});
+function closeMenu() {
+  if (!navLinks || !hamburger) return;
+  navLinks.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+}
 
-navLinks.querySelectorAll('.nav-link').forEach(link => {
-  link.addEventListener('click', () => navLinks.classList.remove('open'));
-});
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  navLinks.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
+  });
+}
 
 /* ── TYPED ANIMATION ───────────────────────────── */
 const lines = [
@@ -31,6 +48,7 @@ let charIndex = 0;
 let deleting = false;
 
 function typeLoop() {
+  if (!typedEl) return;
   const current = lines[lineIndex];
 
   if (!deleting) {
