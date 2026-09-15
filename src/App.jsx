@@ -1,128 +1,54 @@
 import { useEffect, useState } from 'react';
 
-const typeLines = [
-  'Developer | Learner | Builder',
-  'Building Real Projects',
-  'Learning React and Tailwind CSS',
-  'Building with Vite.js',
-  'Consistency Beats Everything',
-];
-
-const skillGroups = [
-  {
-    title: 'Frontend',
-    icon: '🎨',
-    items: [
-      ['HTML5', 'html5-original.svg'],
-      ['CSS3', 'css3-original.svg'],
-      ['JavaScript', 'javascript-original.svg'],
-      ['React', 'react-original.svg'],
-      ['Tailwind CSS', 'tailwindcss-original.svg'],
-      ['Vite.js', 'vitejs-original.svg'],
-    ],
-  },
-  {
-    title: 'Tools & Platforms',
-    icon: '🔧',
-    items: [
-      ['Git', 'git-original.svg'],
-      ['GitHub', 'github-original.svg', true],
-      ['VS Code', 'vscode-original.svg'],
-      ['Figma', 'figma-original.svg'],
-      ['Vercel', 'vercel-original.svg', true],
-    ],
-  },
-];
-
-const projects = [
-  {
-    icon: '⚡',
-    name: 'Elite5',
-    status: '🟡 Live repo',
-    statusClass: 'status-progress',
-    description: 'Public HTML and JavaScript project with a deployed preview at elite5-beta.vercel.app.',
-    stack: ['HTML', 'JavaScript', 'Vercel'],
-    href: 'https://github.com/gauravkataria00/Elite5',
-  },
-  {
-    icon: '🎮',
-    name: 'UI7 eSports',
-    status: '🟢 Live repo',
-    statusClass: 'status-active',
-    description: 'Professional eSports tournament platform built with React, Vite, and Tailwind CSS.',
-    stack: ['React', 'Vite', 'Tailwind CSS'],
-    href: 'https://github.com/gauravkataria00/ui7',
-  },
-  {
-    icon: '🥛',
-    name: 'Dairy Management System',
-    status: '🔵 Live repo',
-    statusClass: 'status-planning',
-    description: 'A full dairy operations app for client management, milk entries, settlements, payments, and reporting.',
-    stack: ['React', 'Vite', 'SQLite'],
-    href: 'https://github.com/gauravkataria00/dm',
-  },
-];
-
+const typeLines = ['Developer | Learner | Builder', 'Building Real Projects', 'Learning React and Tailwind CSS', 'Building with Vite.js', 'Consistency Beats Everything'];
+const navItems = ['about', 'skills', 'projects', 'focus', 'stats', 'contact'];
 const socials = [
-  ['GitHub', '@gauravkataria00', 'https://github.com/gauravkataria00', 'fab', 'fa-github', 'social-github'],
-  ['LinkedIn', 'Gaurav Kataria', 'https://www.linkedin.com/in/gaurav-kataria-82a72a359', 'fab', 'fa-linkedin', 'social-linkedin'],
-  ['WhatsApp', '+91 87081 95687', 'https://wa.me/918708195687', 'fab', 'fa-whatsapp', 'social-whatsapp'],
-  ['Gmail', 'gavim0009@gmail.com', 'mailto:gavim0009@gmail.com', 'fas', 'fa-envelope', 'social-gmail'],
+  ['GitHub', '@gauravkataria00', 'https://github.com/gauravkataria00', 'fab fa-github', 'border-slate-300/20', 'text-slate-200'],
+  ['LinkedIn', 'Gaurav Kataria', 'https://www.linkedin.com/in/gaurav-kataria-82a72a359', 'fab fa-linkedin', 'border-sky-500/50', 'text-sky-500'],
+  ['WhatsApp', '+91 87081 95687', 'https://wa.me/918708195687', 'fab fa-whatsapp', 'border-green-400/50', 'text-green-400'],
+  ['Gmail', 'gavim0009@gmail.com', 'mailto:gavim0009@gmail.com', 'fas fa-envelope', 'border-red-400/50', 'text-red-400'],
 ];
-
+const skillGroups = [
+  ['🎨', 'Frontend', [['HTML5', 'html5-original.svg'], ['CSS3', 'css3-original.svg'], ['JavaScript', 'javascript-original.svg'], ['React', 'react-original.svg'], ['Tailwind CSS', 'tailwindcss-original.svg'], ['Vite.js', 'vitejs-original.svg']]],
+  ['🔧', 'Tools & Platforms', [['Git', 'git-original.svg'], ['GitHub', 'github-original.svg'], ['VS Code', 'vscode-original.svg'], ['Figma', 'figma-original.svg'], ['Vercel', 'vercel-original.svg']]],
+];
+const projects = [
+  ['⚡', 'Elite5', '🟡 Live repo', 'Public HTML and JavaScript project with a deployed preview at elite5-beta.vercel.app.', ['HTML', 'JavaScript', 'Vercel'], 'https://github.com/gauravkataria00/Elite5', 'text-yellow-400'],
+  ['🎮', 'UI7 eSports', '🟢 Live repo', 'Professional eSports tournament platform built with React, Vite, and Tailwind CSS.', ['React', 'Vite', 'Tailwind CSS'], 'https://github.com/gauravkataria00/ui7', 'text-green-400'],
+  ['🥛', 'Dairy Management System', '🔵 Live repo', 'A full dairy operations app for client management, milk entries, settlements, payments, and reporting.', ['React', 'Vite', 'SQLite'], 'https://github.com/gauravkataria00/dm', 'text-blue-400'],
+];
 const iconUrl = (file) => `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${file.replace('-original.svg', '')}/${file}`;
 
 function GithubStats() {
   const [stats, setStats] = useState({ followers: null, repos: null, following: null, stars: null, languages: [], activity: [], error: false });
-
   useEffect(() => {
     let active = true;
-    const loadStats = async () => {
-      try {
-        const [profileResponse, reposResponse] = await Promise.all([
-          fetch('https://api.github.com/users/gauravkataria00'),
-          fetch('https://api.github.com/users/gauravkataria00/repos?per_page=100&sort=updated'),
-        ]);
-        if (!profileResponse.ok || !reposResponse.ok) throw new Error('GitHub API request failed');
+    Promise.all([fetch('https://api.github.com/users/gauravkataria00'), fetch('https://api.github.com/users/gauravkataria00/repos?per_page=100&sort=updated')])
+      .then(async ([profileResponse, reposResponse]) => {
+        if (!profileResponse.ok || !reposResponse.ok) throw new Error('GitHub API failed');
         const profile = await profileResponse.json();
         const repos = await reposResponse.json();
-        const languageCounts = repos.reduce((counts, repo) => {
-          if (repo.language) counts[repo.language] = (counts[repo.language] || 0) + 1;
-          return counts;
-        }, {});
+        const languageCounts = repos.reduce((result, repo) => { if (repo.language) result[repo.language] = (result[repo.language] || 0) + 1; return result; }, {});
         const languages = Object.entries(languageCounts).sort(([, a], [, b]) => b - a).slice(0, 4);
         const activity = repos.slice(0, 28).map((repo) => Math.min(10, Math.max(1, repo.stargazers_count + repo.forks_count)));
         if (active) setStats({ followers: profile.followers, repos: profile.public_repos, following: profile.following, stars: repos.reduce((sum, repo) => sum + repo.stargazers_count, 0), languages, activity, error: false });
-      } catch {
-        if (active) setStats((current) => ({ ...current, error: true }));
-      }
-    };
-    loadStats();
+      })
+      .catch(() => active && setStats((current) => ({ ...current, error: true })));
     return () => { active = false; };
   }, []);
-
   const value = (number) => number === null ? '...' : number;
   const activity = stats.activity.length ? stats.activity : Array.from({ length: 28 }, (_, index) => (index % 7) + 1);
-
-  return (
-    <div className="github-stats-panel">
-      {stats.error && <p className="stats-notice">GitHub API is temporarily unavailable. Showing the section safely instead of leaving it blank.</p>}
-      <div className="stats-overview">
-        {[
-          ['Public Repositories', value(stats.repos), 'fas fa-code-branch'],
-          ['Followers', value(stats.followers), 'fas fa-users'],
-          ['Following', value(stats.following), 'fas fa-user-plus'],
-          ['Total Stars', value(stats.stars), 'fas fa-star'],
-        ].map(([label, number, icon]) => <div className="stats-metric" key={label}><i className={icon} /><strong>{number}</strong><span>{label}</span></div>)}
-      </div>
-      <div className="stats-detail-grid">
-        <div className="stats-card stats-languages"><h3>Top Languages</h3>{stats.languages.length ? stats.languages.map(([language, count]) => <div className="language-row" key={language}><span>{language}</span><span>{count} repos</span></div>) : <p className="stats-empty">Loading language data...</p>}</div>
-        <div className="stats-card stats-activity-card"><h3>Repository Activity</h3><div className="activity-bars" aria-label="Repository activity chart">{activity.map((height, index) => <span style={{ height: `${height * 9}%` }} key={`${height}-${index}`} />)}</div><div className="activity-labels"><span>Recent repositories</span><span>Older repositories</span></div></div>
-      </div>
-      <a className="stats-profile-link" href="https://github.com/gauravkataria00" target="_blank" rel="noreferrer">View full GitHub profile <i className="fas fa-arrow-up-right-from-square" /></a>
+  return <div className="space-y-6">
+    {stats.error && <p className="rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-5 py-3 text-sm text-yellow-300">GitHub API is temporarily unavailable. Showing the section safely instead of leaving it blank.</p>}
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      {[['Public Repositories', value(stats.repos), 'fas fa-code-branch'], ['Followers', value(stats.followers), 'fas fa-users'], ['Following', value(stats.following), 'fas fa-user-plus'], ['Total Stars', value(stats.stars), 'fas fa-star']].map(([label, number, icon]) => <div className="flex flex-col gap-2 rounded-xl border border-violet-300/20 bg-[#1a1640] p-5" key={label}><i className={`${icon} text-violet-300`} /><strong className="text-3xl text-white">{number}</strong><span className="text-xs text-violet-200">{label}</span></div>)}
     </div>
-  );
+    <div className="grid gap-6 lg:grid-cols-[1fr_1.5fr]">
+      <div className="rounded-xl border border-violet-300/20 bg-[#1a1640] p-6"><h3 className="mb-5 text-lg font-bold">Top Languages</h3>{stats.languages.length ? stats.languages.map(([language, count]) => <div className="flex justify-between border-b border-violet-300/20 py-3 text-sm last:border-0" key={language}><span className="text-violet-200">{language}</span><span className="font-mono text-violet-300">{count} repos</span></div>) : <p className="text-sm text-slate-500">Loading language data...</p>}</div>
+      <div className="rounded-xl border border-violet-300/20 bg-[#1a1640] p-6"><h3 className="mb-5 text-lg font-bold">Repository Activity</h3><div className="flex h-40 items-end gap-1.5 border-b border-violet-300/20 py-3">{activity.map((height, index) => <span className="min-h-2 flex-1 rounded-t bg-linear-to-t from-violet-700 to-violet-300 opacity-80" style={{ height: `${height * 9}%` }} key={`${height}-${index}`} />)}</div><div className="flex justify-between pt-3 text-xs text-slate-500"><span>Recent repositories</span><span>Older repositories</span></div></div>
+    </div>
+    <a className="inline-flex items-center gap-2 font-bold text-violet-300 hover:text-white" href="https://github.com/gauravkataria00" target="_blank" rel="noreferrer">View full GitHub profile <i className="fas fa-arrow-up-right-from-square" /></a>
+  </div>;
 }
 
 function App() {
@@ -133,98 +59,30 @@ function App() {
   const [lineIndex, setLineIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', onScroll);
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  useEffect(() => { const onScroll = () => setScrolled(window.scrollY > 40); window.addEventListener('scroll', onScroll); onScroll(); return () => window.removeEventListener('scroll', onScroll); }, []);
+  useEffect(() => { const current = typeLines[lineIndex]; const complete = typed === current; const empty = typed.length === 0; const timer = window.setTimeout(() => { if (complete) setDeleting(true); else if (empty && deleting) { setDeleting(false); setLineIndex((index) => (index + 1) % typeLines.length); } else setTyped(current.slice(0, typed.length + (deleting ? -1 : 1))); }, complete ? 1800 : empty && deleting ? 400 : deleting ? 35 : 70); return () => window.clearTimeout(timer); }, [typed, lineIndex, deleting]);
+  useEffect(() => { const observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.isIntersecting && setActiveSection(entry.target.id)), { rootMargin: '-40% 0px -55% 0px' }); document.querySelectorAll('section[id]').forEach((section) => observer.observe(section)); return () => observer.disconnect(); }, []);
 
-  useEffect(() => {
-    const current = typeLines[lineIndex];
-    const complete = typed === current;
-    const empty = typed.length === 0;
-    const timer = window.setTimeout(() => {
-      if (complete) setDeleting(true);
-      else if (empty && deleting) {
-        setDeleting(false);
-        setLineIndex((index) => (index + 1) % typeLines.length);
-      } else {
-        setTyped(current.slice(0, typed.length + (deleting ? -1 : 1)));
-      }
-    }, complete ? 1800 : empty && deleting ? 400 : deleting ? 35 : 70);
-    return () => window.clearTimeout(timer);
-  }, [typed, lineIndex, deleting]);
+  return <div className="min-h-screen overflow-x-hidden bg-[#0d0b1e] font-sans leading-relaxed text-white selection:bg-violet-400/30">
+    <a href="#home" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-0 focus:z-50 focus:bg-violet-700 focus:px-4 focus:py-2">Skip to main content</a>
+    <div className="pointer-events-none fixed inset-0 z-0 opacity-50 bg-[radial-gradient(circle_at_12%_18%,rgba(167,139,250,.5)_0_1px,transparent_2px),radial-gradient(circle_at_76%_32%,rgba(167,139,250,.4)_0_1px,transparent_2px),radial-gradient(circle_at_42%_72%,rgba(124,58,237,.45)_0_1px,transparent_2px)] bg-size-[260px_220px,340px_280px,300px_260px]" />
+    <nav className={`fixed inset-x-0 top-0 z-40 px-6 py-5 transition-all duration-300 ${scrolled ? 'border-b border-violet-300/20 bg-[#0d0b1e]/90 py-3 backdrop-blur-xl' : ''}`}><div className="mx-auto flex max-w-6xl items-center justify-between"><a href="#home" className="font-mono text-xl font-bold"><span className="text-violet-400">&lt;</span>GK<span className="text-violet-400">/&gt;</span></a><ul className={`${menuOpen ? 'flex' : 'hidden'} absolute left-0 right-0 top-full flex-col border-b border-violet-300/20 bg-[#0d0b1e] px-6 py-5 md:static md:flex md:flex-row md:gap-9 md:border-0 md:bg-transparent md:p-0`}>{navItems.map((item) => <li key={item}><a href={`#${item}`} onClick={() => setMenuOpen(false)} className={`relative block py-2 text-sm font-medium text-violet-200 transition hover:text-white after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-violet-400 after:transition-all ${activeSection === item ? 'text-white after:w-full' : 'after:w-0 hover:after:w-full'}`}>{item[0].toUpperCase() + item.slice(1)}</a></li>)}</ul><button className="text-xl md:hidden" aria-label="Toggle menu" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}><i className="fas fa-bars" /></button></div></nav>
 
-  useEffect(() => {
-    const closeMenu = (event) => event.key === 'Escape' && setMenuOpen(false);
-    window.addEventListener('keydown', closeMenu);
-    return () => window.removeEventListener('keydown', closeMenu);
-  }, []);
+    <main>
+      <section id="home" className="relative z-10 flex min-h-screen items-center justify-center px-6 pb-20 pt-32 text-center before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,rgba(124,58,237,.18),transparent_70%)]"><div className="max-w-3xl"><a className="mb-6 inline-flex flex-col items-center gap-3" href="https://github.com/gauravkataria00" target="_blank" rel="noreferrer"><img className="h-32 w-32 rounded-full border-[3px] border-violet-300/75 object-cover shadow-[0_0_0_10px_rgba(167,139,250,.08),0_18px_40px_rgba(0,0,0,.35)]" src="https://avatars.githubusercontent.com/u/203610420?v=4" alt="Gaurav Kataria" /><span className="rounded-full border border-violet-300/20 bg-violet-300/10 px-4 py-2 text-xs font-semibold text-violet-200"><i className="fab fa-github mr-2" />GitHub profile</span></a><p className="mb-4 text-lg tracking-widest text-violet-300">👋 Hello, I&apos;m</p><h1 className="mb-5 text-5xl font-extrabold tracking-tight md:text-7xl">Gaurav Kataria</h1><div className="mb-6 h-10 font-mono text-lg text-violet-300 md:text-2xl">{typed}<span className="animate-pulse">|</span></div><p className="mx-auto mb-9 max-w-xl text-violet-200">Developer · Learner · Builder from India 🇮🇳 &nbsp;·&nbsp; Turning real-world ideas into clean code</p><div className="mb-12 flex flex-wrap justify-center gap-4"><a href="#projects" className="rounded-full bg-linear-to-r from-violet-700 to-violet-400 px-8 py-3 font-semibold shadow-lg shadow-violet-900/50 transition hover:-translate-y-1">View My Work</a><a href="#contact" className="rounded-full border-2 border-violet-400 px-8 py-3 font-semibold text-violet-300 transition hover:-translate-y-1 hover:bg-violet-400/10">Get In Touch</a></div><div className="flex justify-center gap-5">{socials.map(([, , href, icon]) => <a key={icon} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined} aria-label={icon} className="grid h-12 w-12 place-items-center rounded-full border border-violet-300/20 bg-violet-300/5 text-lg text-violet-200 transition hover:-translate-y-1 hover:border-violet-400 hover:text-violet-300"><i className={icon} /></a>)}</div></div></section>
 
-  useEffect(() => {
-    const sections = document.querySelectorAll('section[id]');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) setActiveSection(entry.target.id);
-      });
-    }, { rootMargin: '-40% 0px -55% 0px' });
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
+      <section id="about" className="relative z-10 px-6 py-24"><div className="mx-auto max-w-6xl"><h2 className="mb-14 text-center text-3xl font-extrabold text-white md:text-4xl">👨‍💻 About Me</h2><div className="grid gap-14 lg:grid-cols-2"><div className="overflow-hidden rounded-xl border border-violet-300/20 bg-[#1a1640] shadow-2xl"><div className="flex gap-2 border-b border-violet-300/20 bg-white/5 px-4 py-3"><span className="h-3 w-3 rounded-full bg-red-400" /><span className="h-3 w-3 rounded-full bg-yellow-400" /><span className="h-3 w-3 rounded-full bg-green-400" /><span className="ml-1 font-mono text-xs text-slate-500">gaurav.js</span></div><pre className="overflow-x-auto p-6 font-mono text-xs leading-7 text-violet-200 md:text-sm"><code><span className="text-fuchsia-300">const</span> <span className="text-blue-300">gaurav</span> = {'{'}{`\n  name: "Gaurav Kataria",\n  role: "Developer | Learner | Builder",\n  location: "India 🇮🇳",\n  passions: ["Web Development", "Problem Solving"],\n  learning: ["React", "Tailwind CSS", "Vite.js"],\n  motto: "Consistency beats everything."\n`}{'}'};</code></pre></div><div className="flex flex-col gap-6 text-violet-200"><p className="text-lg leading-8">Hey there! I&apos;m a <strong className="text-violet-300">Developer</strong>, <strong className="text-violet-300">Learner</strong>, and <strong className="text-violet-300">Builder</strong> focused on real-world projects.</p><ul className="space-y-4">{['🎓 BCA Student', '🌱 Learning React and Tailwind CSS', '🚀 Building real-world projects with Vite.js', '🧠 Improving problem solving and logic', '⚡ Goal: Top 1% Developer'].map((item) => <li key={item}>{item}</li>)}</ul><div className="flex flex-wrap gap-2">{['📍 India', '💼 Developer', '🧭 Learner', '♥ Builder'].map((item) => <span className="rounded-full border border-violet-300/20 bg-violet-300/10 px-3 py-1.5 text-sm" key={item}>{item}</span>)}</div></div></div></div></section>
 
-  const navItems = ['about', 'skills', 'projects', 'focus', 'stats', 'contact'];
+      <section id="skills" className="relative z-10 bg-[#13102a] px-6 py-24"><div className="mx-auto max-w-6xl"><h2 className="mb-14 text-center text-3xl font-extrabold md:text-4xl">🛠️ Tech Stack &amp; Tools</h2>{skillGroups.map(([emoji, title, items]) => <div className="mb-12" key={title}><h3 className="mb-5 text-lg font-semibold text-violet-200">{emoji} {title}</h3><div className="flex flex-wrap gap-4">{items.map(([name, icon]) => <div className="flex min-w-20 flex-col items-center gap-2 rounded-xl border border-violet-300/20 bg-[#1a1640] px-5 py-4 text-xs font-medium text-violet-200 transition hover:-translate-y-1 hover:border-violet-400 hover:text-white" key={name}><img className="h-9 w-9 object-contain" src={iconUrl(icon)} alt={name} loading="lazy" /><span>{name}</span></div>)}</div></div>)}</div></section>
 
-  return (
-    <>
-      <a href="#home" className="skip-link">Skip to main content</a>
-      <div id="particles-js" aria-hidden="true" />
+      <section id="projects" className="relative z-10 px-6 py-24"><div className="mx-auto max-w-6xl"><h2 className="mb-14 text-center text-3xl font-extrabold md:text-4xl">🚀 Featured Projects</h2><div className="grid gap-7 md:grid-cols-3">{projects.map(([icon, name, status, description, stack, href, color]) => <a className="flex flex-col gap-4 rounded-xl border border-violet-300/20 bg-[#1a1640] p-8 transition hover:-translate-y-1.5 hover:border-violet-400 hover:shadow-xl hover:shadow-violet-950/50" href={href} target="_blank" rel="noreferrer" key={name}><div className="flex items-center justify-between"><span className="text-3xl">{icon}</span><span className={`rounded-full bg-violet-300/10 px-2.5 py-1 text-xs ${color}`}>{status}</span></div><h3 className="text-xl font-bold">{name}</h3><p className="flex-1 text-sm leading-7 text-violet-200">{description}</p><div className="flex flex-wrap gap-2">{stack.map((item) => <span className="rounded border border-violet-300/20 bg-violet-300/10 px-2 py-1 font-mono text-xs text-violet-300" key={item}>{item}</span>)}</div><span className="text-sm font-bold text-violet-300">Open GitHub repo <i className="fas fa-arrow-up-right-from-square ml-1" /></span></a>)}</div></div></section>
 
-      <nav className={`navbar${scrolled ? ' scrolled' : ''}`} id="navbar">
-        <div className="nav-container">
-          <a href="#home" className="nav-logo"><span className="logo-bracket">&lt;</span>GK<span className="logo-bracket">/&gt;</span></a>
-          <ul className={`nav-links${menuOpen ? ' open' : ''}`} id="nav-links">
-            {navItems.map((item) => <li key={item}><a href={`#${item}`} className={`nav-link${activeSection === item ? ' active' : ''}`} onClick={() => setMenuOpen(false)}>{item[0].toUpperCase() + item.slice(1)}</a></li>)}
-          </ul>
-          <button className="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded={menuOpen} aria-controls="nav-links" onClick={() => setMenuOpen((open) => !open)}>
-            <span /><span /><span />
-          </button>
-        </div>
-      </nav>
-
-      <main>
-        <section className="hero" id="home">
-          <div className="hero-content">
-            <a className="hero-avatar" href="https://github.com/gauravkataria00" target="_blank" rel="noreferrer" aria-label="Open Gaurav Kataria GitHub profile">
-              <img src="https://avatars.githubusercontent.com/u/203610420?v=4" alt="Gaurav Kataria GitHub profile picture" />
-              <span className="hero-avatar-badge"><i className="fab fa-github" /> GitHub profile</span>
-            </a>
-            <p className="hero-greeting">👋 Hello, I&apos;m</p>
-            <h1 className="hero-name">Gaurav Kataria</h1>
-            <div className="hero-typed-wrapper"><span>{typed}</span><span className="cursor">|</span></div>
-            <p className="hero-desc">Developer · Learner · Builder from India 🇮🇳 &nbsp;·&nbsp; Turning real-world ideas into clean code</p>
-            <div className="hero-cta"><a href="#projects" className="btn btn-primary">View My Work</a><a href="#contact" className="btn btn-outline">Get In Touch</a></div>
-            <div className="hero-socials">{socials.map(([, , href, family, icon]) => <a key={icon} href={href} target="_blank" rel="noreferrer" aria-label={icon}><i className={`${family} ${icon}`} /></a>)}</div>
-          </div>
-          <div className="hero-scroll"><span>Scroll Down</span><i className="fas fa-chevron-down" /></div>
-        </section>
-
-        <section className="section" id="about"><div className="container"><h2 className="section-title">👨‍💻 About Me</h2><div className="about-grid"><div className="about-code"><div className="code-header"><span className="dot red" /><span className="dot yellow" /><span className="dot green" /><span className="code-filename">gaurav.js</span></div><pre className="code-block"><code><span className="kw">const</span> <span className="var">gaurav</span> = {'{'}{`\n  name     : "Gaurav Kataria",\n  role     : "Developer | Learner | Builder",\n  location : "India 🇮🇳",\n  passions : ["Web Development", "Problem Solving"],\n  learning : ["React", "Tailwind CSS", "Vite.js"],\n  focus    : "Real-world projects + consistency",\n  motto    : "Consistency beats everything."\n`}{'}'};</code></pre></div><div className="about-info"><p className="about-text">Hey there! I&apos;m a <strong>Developer</strong>, <strong>Learner</strong>, and <strong>Builder</strong> focused on real-world projects. I care about practical problem solving, steady improvement, and building things that actually work.</p><ul className="about-list"><li><i className="fas fa-graduation-cap" /> <strong>BCA Student</strong></li><li><i className="fas fa-seedling" /> Learning <strong>React</strong> and <strong>Tailwind CSS</strong></li><li><i className="fas fa-rocket" /> Building real-world projects with <strong>Vite.js</strong></li><li><i className="fas fa-brain" /> Improving <strong>problem solving</strong> and <strong>logic</strong></li><li><i className="fas fa-bolt" /> Goal: <strong>Top 1% Developer</strong></li></ul><div className="about-badges"><span className="badge"><i className="fas fa-map-marker-alt" /> India</span><span className="badge"><i className="fas fa-briefcase" /> Developer</span><span className="badge"><i className="fas fa-compass" /> Learner</span><span className="badge"><i className="fas fa-heart" /> Builder</span></div></div></div></div></section>
-
-        <section className="section section-dark" id="skills"><div className="container"><h2 className="section-title">🛠️ Tech Stack &amp; Tools</h2>{skillGroups.map((group) => <div className="skills-category" key={group.title}><h3 className="skills-cat-title"><span>{group.icon}</span> {group.title}</h3><div className="skills-grid">{group.items.map(([name, icon, invert]) => <div className="skill-card" key={name}><img src={iconUrl(icon)} alt={name} loading="lazy" className={invert ? 'invert' : ''} /><span>{name}</span></div>)}</div></div>)}</div></section>
-
-        <section className="section" id="projects"><div className="container"><h2 className="section-title">🚀 Featured Projects</h2><div className="projects-grid">{projects.map((project) => <a className="project-card project-card-link" href={project.href} target="_blank" rel="noreferrer" key={project.name}><div className="project-header"><div className="project-icon">{project.icon}</div><span className={`status ${project.statusClass}`}>{project.status}</span></div><h3 className="project-name">{project.name}</h3><p className="project-desc">{project.description}</p><div className="project-stack">{project.stack.map((item) => <span className="tag" key={item}>{item}</span>)}</div><span className="project-cta">Open GitHub repo <i className="fas fa-arrow-up-right-from-square" /></span></a>)}</div></div></section>
-
-        <section className="section section-dark" id="focus"><div className="container"><h2 className="section-title">🔥 What I&apos;m Building</h2><div className="focus-grid"><div className="focus-card"><h3>What I&apos;m learning</h3><ul><li>React</li><li>Tailwind CSS</li><li>Vite.js</li></ul></div><div className="focus-card focus-quote"><h3>Mindset</h3><p>Consistency beats everything.</p></div></div></div></section>
-
-        <section className="section section-dark" id="stats"><div className="container"><h2 className="section-title">📊 GitHub Statistics</h2><GithubStats /></div></section>
-
-        <section className="section" id="contact"><div className="container"><h2 className="section-title">🌐 Connect With Me</h2><p className="contact-sub">I&apos;m always open to new opportunities, collaborations, or just a friendly chat. Let&apos;s connect!</p><div className="social-cards">{socials.map(([name, handle, href, family, icon, colorClass]) => <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined} className={`social-card ${colorClass}`} key={name}><div className="social-icon"><i className={`${family} ${icon}`} /></div><div className="social-info"><span className="social-platform">{name}</span><span className="social-handle">{handle}</span></div><i className="fas fa-arrow-right social-arrow" /></a>)}</div></div></section>
-      </main>
-
-      <footer className="footer"><div className="container"><div className="footer-logo"><span className="logo-bracket">&lt;</span>GK<span className="logo-bracket">/&gt;</span></div><p className="footer-quote"><i className="fas fa-quote-left" /> Build. Break. Learn. Repeat. 🚀 <i className="fas fa-quote-right" /></p><div className="footer-socials">{socials.map(([, , href, family, icon]) => <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined} aria-label={icon} key={icon}><i className={`${family} ${icon}`} /></a>)}</div><p className="footer-copy">&copy; 2026 Gaurav Kataria · Made with <i className="fas fa-heart" style={{ color: '#ff6b6b' }} /> and lots of ☕</p></div></footer>
-    </>
-  );
+      <section id="focus" className="relative z-10 bg-[#13102a] px-6 py-24"><div className="mx-auto max-w-6xl"><h2 className="mb-14 text-center text-3xl font-extrabold md:text-4xl">🔥 What I&apos;m Building</h2><div className="grid gap-6 md:grid-cols-2"><div className="rounded-xl border border-violet-300/20 bg-[#1a1640] p-7"><h3 className="mb-4 text-xl font-bold">What I&apos;m learning</h3><ul className="space-y-3 text-violet-200"><li>React</li><li>Tailwind CSS</li><li>Vite.js</li></ul></div><div className="rounded-xl border border-violet-300/20 bg-[#1a1640] p-7"><h3 className="mb-4 text-xl font-bold">Mindset</h3><p className="text-xl text-violet-300">Consistency beats everything.</p></div></div></div></section>
+      <section id="stats" className="relative z-10 bg-[#13102a] px-6 py-24"><div className="mx-auto max-w-6xl"><h2 className="mb-14 text-center text-3xl font-extrabold md:text-4xl">📊 GitHub Statistics</h2><GithubStats /></div></section>
+      <section id="contact" className="relative z-10 px-6 py-24"><div className="mx-auto max-w-5xl"><h2 className="mb-6 text-center text-3xl font-extrabold md:text-4xl">🌐 Connect With Me</h2><p className="mx-auto mb-12 max-w-xl text-center text-violet-200">I&apos;m always open to new opportunities, collaborations, or just a friendly chat. Let&apos;s connect!</p><div className="grid gap-5 md:grid-cols-2">{socials.map(([name, handle, href, icon, border, color]) => <a className={`group flex items-center gap-4 rounded-xl border bg-[#1a1640] p-5 transition hover:translate-x-1 ${border}`} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined} key={name}><i className={`${icon} w-10 text-center text-2xl ${color}`} /><span className="flex-1"><strong className="block">{name}</strong><small className="font-mono text-violet-200">{handle}</small></span><i className="fas fa-arrow-right text-violet-300 transition group-hover:translate-x-1" /></a>)}</div></div></section>
+    </main>
+    <footer className="relative z-10 border-t border-violet-300/20 bg-[#13102a] px-6 py-14 text-center"><div className="font-mono text-3xl font-bold"><span className="text-violet-400">&lt;</span>GK<span className="text-violet-400">/&gt;</span></div><p className="my-5 text-violet-200">Build. Break. Learn. Repeat. 🚀</p><div className="mb-7 flex justify-center gap-4">{socials.map(([, , href, icon]) => <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined} aria-label={icon} key={icon} className="grid h-11 w-11 place-items-center rounded-full border border-violet-300/20 text-slate-400 transition hover:-translate-y-1 hover:border-violet-400 hover:text-violet-300"><i className={icon} /></a>)}</div><p className="text-sm text-slate-500">© 2026 Gaurav Kataria · Made with <i className="fas fa-heart text-red-400" /> and lots of ☕</p></footer>
+  </div>;
 }
 
 export default App;
