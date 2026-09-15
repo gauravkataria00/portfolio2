@@ -73,9 +73,62 @@ const socials = [
 
 const iconUrl = (file) => `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${file.replace('-original.svg', '')}/${file}`;
 
+function GithubStats() {
+  const [stats, setStats] = useState({ followers: null, repos: null, following: null, stars: null, languages: [], activity: [], error: false });
+
+  useEffect(() => {
+    let active = true;
+    const loadStats = async () => {
+      try {
+        const [profileResponse, reposResponse] = await Promise.all([
+          fetch('https://api.github.com/users/gauravkataria00'),
+          fetch('https://api.github.com/users/gauravkataria00/repos?per_page=100&sort=updated'),
+        ]);
+        if (!profileResponse.ok || !reposResponse.ok) throw new Error('GitHub API request failed');
+        const profile = await profileResponse.json();
+        const repos = await reposResponse.json();
+        const languageCounts = repos.reduce((counts, repo) => {
+          if (repo.language) counts[repo.language] = (counts[repo.language] || 0) + 1;
+          return counts;
+        }, {});
+        const languages = Object.entries(languageCounts).sort(([, a], [, b]) => b - a).slice(0, 4);
+        const activity = repos.slice(0, 28).map((repo) => Math.min(10, Math.max(1, repo.stargazers_count + repo.forks_count)));
+        if (active) setStats({ followers: profile.followers, repos: profile.public_repos, following: profile.following, stars: repos.reduce((sum, repo) => sum + repo.stargazers_count, 0), languages, activity, error: false });
+      } catch {
+        if (active) setStats((current) => ({ ...current, error: true }));
+      }
+    };
+    loadStats();
+    return () => { active = false; };
+  }, []);
+
+  const value = (number) => number === null ? '...' : number;
+  const activity = stats.activity.length ? stats.activity : Array.from({ length: 28 }, (_, index) => (index % 7) + 1);
+
+  return (
+    <div className="github-stats-panel">
+      {stats.error && <p className="stats-notice">GitHub API is temporarily unavailable. Showing the section safely instead of leaving it blank.</p>}
+      <div className="stats-overview">
+        {[
+          ['Public Repositories', value(stats.repos), 'fas fa-code-branch'],
+          ['Followers', value(stats.followers), 'fas fa-users'],
+          ['Following', value(stats.following), 'fas fa-user-plus'],
+          ['Total Stars', value(stats.stars), 'fas fa-star'],
+        ].map(([label, number, icon]) => <div className="stats-metric" key={label}><i className={icon} /><strong>{number}</strong><span>{label}</span></div>)}
+      </div>
+      <div className="stats-detail-grid">
+        <div className="stats-card stats-languages"><h3>Top Languages</h3>{stats.languages.length ? stats.languages.map(([language, count]) => <div className="language-row" key={language}><span>{language}</span><span>{count} repos</span></div>) : <p className="stats-empty">Loading language data...</p>}</div>
+        <div className="stats-card stats-activity-card"><h3>Repository Activity</h3><div className="activity-bars" aria-label="Repository activity chart">{activity.map((height, index) => <span style={{ height: `${height * 9}%` }} key={`${height}-${index}`} />)}</div><div className="activity-labels"><span>Recent repositories</span><span>Older repositories</span></div></div>
+      </div>
+      <a className="stats-profile-link" href="https://github.com/gauravkataria00" target="_blank" rel="noreferrer">View full GitHub profile <i className="fas fa-arrow-up-right-from-square" /></a>
+    </div>
+  );
+}
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const [typed, setTyped] = useState('');
   const [lineIndex, setLineIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
@@ -109,6 +162,17 @@ function App() {
     return () => window.removeEventListener('keydown', closeMenu);
   }, []);
 
+  useEffect(() => {
+    const sections = document.querySelectorAll('section[id]');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActiveSection(entry.target.id);
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   const navItems = ['about', 'skills', 'projects', 'focus', 'stats', 'contact'];
 
   return (
@@ -120,7 +184,7 @@ function App() {
         <div className="nav-container">
           <a href="#home" className="nav-logo"><span className="logo-bracket">&lt;</span>GK<span className="logo-bracket">/&gt;</span></a>
           <ul className={`nav-links${menuOpen ? ' open' : ''}`} id="nav-links">
-            {navItems.map((item) => <li key={item}><a href={`#${item}`} className="nav-link" onClick={() => setMenuOpen(false)}>{item[0].toUpperCase() + item.slice(1)}</a></li>)}
+            {navItems.map((item) => <li key={item}><a href={`#${item}`} className={`nav-link${activeSection === item ? ' active' : ''}`} onClick={() => setMenuOpen(false)}>{item[0].toUpperCase() + item.slice(1)}</a></li>)}
           </ul>
           <button className="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded={menuOpen} aria-controls="nav-links" onClick={() => setMenuOpen((open) => !open)}>
             <span /><span /><span />
@@ -153,7 +217,7 @@ function App() {
 
         <section className="section section-dark" id="focus"><div className="container"><h2 className="section-title">🔥 What I&apos;m Building</h2><div className="focus-grid"><div className="focus-card"><h3>What I&apos;m learning</h3><ul><li>React</li><li>Tailwind CSS</li><li>Vite.js</li></ul></div><div className="focus-card focus-quote"><h3>Mindset</h3><p>Consistency beats everything.</p></div></div></div></section>
 
-        <section className="section section-dark" id="stats"><div className="container"><h2 className="section-title">📊 GitHub Statistics</h2><div className="stats-grid"><div className="stats-card"><img className="stats-img" src="https://github-readme-stats.vercel.app/api?username=gauravkataria00&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" loading="lazy" /></div><div className="stats-card"><img className="stats-img" src="https://github-readme-stats.vercel.app/api/top-langs/?username=gauravkataria00&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" loading="lazy" /></div></div><div className="stats-streak"><img className="stats-img" src="https://streak-stats.demolab.com?user=gauravkataria00&theme=tokyonight&hide_border=true" alt="GitHub Streak" loading="lazy" /></div><div className="stats-activity"><img className="stats-img full-width" src="https://github-readme-activity-graph.vercel.app/graph?username=gauravkataria00&theme=tokyo-night&bg_color=1a1040&color=a78bfa&line=7c3aed&point=ffffff&hide_border=true" alt="GitHub Activity Graph" loading="lazy" /></div></div></section>
+        <section className="section section-dark" id="stats"><div className="container"><h2 className="section-title">📊 GitHub Statistics</h2><GithubStats /></div></section>
 
         <section className="section" id="contact"><div className="container"><h2 className="section-title">🌐 Connect With Me</h2><p className="contact-sub">I&apos;m always open to new opportunities, collaborations, or just a friendly chat. Let&apos;s connect!</p><div className="social-cards">{socials.map(([name, handle, href, family, icon, colorClass]) => <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined} className={`social-card ${colorClass}`} key={name}><div className="social-icon"><i className={`${family} ${icon}`} /></div><div className="social-info"><span className="social-platform">{name}</span><span className="social-handle">{handle}</span></div><i className="fas fa-arrow-right social-arrow" /></a>)}</div></div></section>
       </main>
